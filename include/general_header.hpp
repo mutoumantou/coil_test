@@ -10,6 +10,13 @@
 #include <iostream>
 #include <math.h>
 
+#include <vector>
+#include <string.h>
+
+
+#include <unistd.h>
+#include <signal.h>
+
 #define sind(x) (sin(fmod((x),360) * M_PI / 180))
 #define cosd(x) (cos(fmod((x),360) * M_PI / 180))
 #define tand(x) (tan(fmod((x),360) * M_PI / 180))

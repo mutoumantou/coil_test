@@ -1,18 +1,18 @@
 #include "general_header.hpp"
-//#include "GUI_master.hpp"       // thread update GUI
+#include "GUI_master.hpp"       // thread update GUI
 //#include "actuation.hpp"        // actuation thread
 //#include "keyboard.hpp"
 
 static void activate ( GtkApplication *app, gpointer user_data ) {
     GtkWidget * window;
-    //GtkImage  * vidWindow;
+    GtkImage  * vidWindow;
     GtkLabel  * timeLabel;
 
     GtkBuilder * builder;
 
     builder = gtk_builder_new_from_file ("GUI.glade");
     window    = GTK_WIDGET ( gtk_builder_get_object (builder, "mainWindow") );
-    //vidWindow = GTK_IMAGE  (gtk_builder_get_object (builder, "vidWindow")); // get video window handler
+    vidWindow = GTK_IMAGE  (gtk_builder_get_object (builder, "vidWindow")); // get video window handler
     timeLabel = GTK_LABEL  ( gtk_builder_get_object (builder, "timeLabel" ) );    // get time display label handler
 
     /* link keyboard input */
@@ -24,7 +24,7 @@ static void activate ( GtkApplication *app, gpointer user_data ) {
 
     gtk_application_add_window (app, GTK_WINDOW (window));
     gtk_widget_show (window);
-    GUI_master_activate ( timeLabel );
+    GUI_master_activate ( vidWindow,timeLabel );
 }
 
 static void on_window_destroy (GtkApplication *app, gpointer user_data) {

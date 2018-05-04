@@ -8,12 +8,12 @@ GTKLIBS  = `pkg-config --libs gtk+-3.0` `pkg-config --cflags --libs opencv --lib
 ODIR = obj
 LDIR = ../lib
 
-LIBS = -lm -ldc1394 #-l826_64
+LIBS = -lm -ldc1394 -lNETUSBCAM #-l826_64 
 
-_DEPS = GUI_master.hpp general_header.hpp output_signal.hpp
+_DEPS = GUI_master.hpp general_header.hpp output_signal.hpp vision.hpp ICubeDefines.h NETUSBCAM_API.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o GUI_master.o general_fun.o output_signal.o
+_OBJ = main.o GUI_master.o general_fun.o output_signal.o vision.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp $(DEPS)

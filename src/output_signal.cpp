@@ -154,25 +154,25 @@ static void* output_signal_THREAD ( void *threadid ) {
     printf("before writing.\n");
     rc = serialport_writebyte(fd, (uint8_t)0x83);
     printf("after writing.\n");
-    if(rc==-1) error("error writing");
+    //if(rc==-1) error("error writing");
     my_sleep(500);
 
     //serialport_flush(fd);
     printf("before writing.\n");
     rc = serialport_writebyte(fd, (uint8_t)0x85);
     printf("after writing.\n");
-    if(rc==-1) error("error writing");
+    //if(rc==-1) error("error writing");
 
     //serialport_flush(fd);
     printf("before writing.\n");
     rc = serialport_writebyte(fd, (uint8_t)0x00);
     printf("after writing.\n");
-    if(rc==-1) error("error writing");
+    //if(rc==-1) error("error writing");
 
     printf("before writing.\n");
     rc = serialport_writebyte(fd, (uint8_t)0x1E);
     printf("after writing.\n");
-    if(rc==-1) error("error writing");
+    //if(rc==-1) error("error writing");
 
     // printf("before writing.\n");
     // rc = serialport_writebyte(fd, (uint8_t)18);
@@ -204,18 +204,18 @@ static void* output_signal_THREAD ( void *threadid ) {
     printf("before writing.\n");
     rc = serialport_writebyte(fd, (uint8_t)0x85);
     printf("after writing.\n");
-    if(rc==-1) error("error writing");
+    //if(rc==-1) error("error writing");
 
     //serialport_flush(fd);
     printf("before writing.\n");
     rc = serialport_writebyte(fd, (uint8_t)0x00);
     printf("after writing.\n");
-    if(rc==-1) error("error writing");
+    //if(rc==-1) error("error writing");
 
     printf("before writing.\n");
     rc = serialport_writebyte(fd, (uint8_t)0x00);
     printf("after writing.\n");
-    if(rc==-1) error("error writing");
+    //if(rc==-1) error("error writing");
 
     printf("at the end of output_signal_THREAD.\n");
 }
