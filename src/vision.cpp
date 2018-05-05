@@ -1,8 +1,18 @@
 #include "vision.hpp"
 
+/* file-wide variable */
 static int fThread = 0;             // flag of whether or not thread is running
 static Mat raw_frame = Mat(1024,1280,CV_8UC3);
 static int raw_frame_lock = 0;
+
+static int centerP_dataSafeLock = 0;                    // 1: centerP is being changed, wait until it is done
+static float centerPointCoorArray[3]  = {320, 240, 0};  // Current pose of robot
+static float centerPointCoorArray_2[3]  = {320, 140, 0}; // Current pose of cargo
+static float angle1;                                    // robot angle ?
+
+static Point mouse, mouseC, mouseR;
+static float goalPointCoorArray[2]   = {320, 240};
+
 
 //static FWcamera cam; // create a new instance of FWcamera
 static Mat presentFrame = Mat(480,640,CV_8UC3);            // present captured frame
@@ -154,4 +164,93 @@ void get_present_image ( Mat * container ) {
 
 void stop_video_stream(void) {
     fThread = 0;
+}
+
+float *get_robot_pose(void){
+	//	int *centerPointCoorArray  = (int*) malloc(2*sizeof(int));
+	//	printf("TEST1\n");
+	while (centerP_dataSafeLock);                   // wait until change is done
+		centerP_dataSafeLock = 1;
+	    // centerPointCoorArray[0] =  centerP_adjusted.x; // Set to global variables  UNCOMMENT
+	    // centerPointCoorArray[1] =  480 - centerP_adjusted.y;   // do not forget 480 offset UNCOMMENT
+		// centerPointCoorArray[1] =  centerP_adjusted.y;
+		centerPointCoorArray[0] = 520; // Test x coordinate
+		centerPointCoorArray[1] = 360; // Test y coordinate
+
+		centerPointCoorArray[2] = angle1; // Set to global angle variable
+		centerP_dataSafeLock = 0;
+		// printf("x= %f, y= %f", centerPointCoorArray[0], centerPointCoorArray[1]);
+	    return centerPointCoorArray;
+}
+
+float *get_cargo_pose(void){
+	while(centerP_dataSafeLock);                   // wait until change is done
+		centerP_dataSafeLock = 1;
+		// centerPointCoorArray_2[0] =  centerP_adjusted_2.x; // Set to global variables
+		// centerPointCoorArray_2[1] =  480 - centerP_adjusted_2.y;   // do not forget 480 offset
+		// centerPointCoorArray_2[1] = centerP_adjusted_2.y;   // do not forget 480 offset
+
+		centerPointCoorArray_2[0] = 120; // Test x coordinate
+		centerPointCoorArray_2[1] = 100; // Test y coordinate
+
+		centerPointCoorArray_2[2] = 0;
+		// centerPointCoorArray_2[2] = angle2; // Eventually use for CV
+		centerP_dataSafeLock = 0;
+		// printf("x= %f, y= %f", centerPointCoorArray[0], centerPointCoorArray[1]);
+		return centerPointCoorArray_2;
+}
+
+float * getGoalPointCoor(void){
+    if(mouse.x>0){
+        goalPointCoorArray[0] = (float)mouse.x;
+        goalPointCoorArray[1] = (float)(480 - mouse.y);   // Note the positive y dir. Note resolution difference between cameras
+    }
+    return goalPointCoorArray;
+}
+
+gboolean key_event (GtkWidget *widget, GdkEventKey *event) {
+    //printf ("key pressed %s\n", gdk_keyval_name( event->keyval ) );
+    int keycode = -1;
+
+    switch (event->keyval) {
+        case 65363: keycode = 0; break;
+        case 65362: keycode = 1; break;
+        case 65361: keycode = 2; break;
+        case 65364: keycode = 3; break;
+        case    32: keycode = -1; break;
+    }
+
+    //set_directionCode (keycode);
+    return TRUE;
+}
+
+gboolean key_event_release (GtkWidget *widget, GdkEventKey *event) {
+    return TRUE;
+}
+
+void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ) {
+    switch(whichMouse) {
+    	case 1: //left mouse
+    		mouse.x 		= mouseClick[0];
+    		mouse.y 		= mouseClick[1];
+    		break;
+    	case 2: //right mouse
+    		mouseR.x 		= mouseClick[0];
+    		mouseR.y		= mouseClick[1];
+    		break;
+    	case 3: //center mouse
+    		mouseC.x 		= mouseClick[0];
+    		mouseC.y 		= mouseClick[1];
+    		break;
+    }
+
+}
+
+gboolean on_eventbox1_button_press_event( GtkWidget *widget, GdkEventButton *event, gpointer data) {
+    int click[2];
+	click[0] = (int)event->x; //x position from top left in pixels
+	click[1] = (int)event->y; //y position from top left in pixels
+	int button_click = event->button; //which mouse button was clicked
+	//g_print("Top video window %d click at location [%d %d].\n", button_click, click[0], click[1]);
+	setMouse (0, button_click, click );      //void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ) //click in pixels
 }

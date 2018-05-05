@@ -34,10 +34,17 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkImage" id="vidWindow">
+          <object class="GtkEventBox" id="eventbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">default.jpg</property>
+            <signal name="button-press-event" handler="on_eventbox1_button_press_event" swapped="no"/>
+            <child>
+              <object class="GtkImage" id="vidWindow">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="pixbuf">default.jpg</property>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -54,7 +61,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -212,7 +219,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -223,7 +230,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
@@ -238,7 +245,7 @@
                 <child>
                   <object class="GtkToggleButton" id="tB_actuation">
                     <property name="label" translatable="yes">start/stop
-actuation thread</property>
+MMC thread</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -382,7 +389,7 @@ actuation thread</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
       </object>

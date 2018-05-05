@@ -3,6 +3,8 @@
 
 #include "general_header.hpp"
 
+#include <gdk/gdkkeysyms.h>
+
 #include "NETUSBCAM_API.h"
 #include "ICubeDefines.h"
 
@@ -28,6 +30,7 @@ extern "C" {
     //void on_rB_1_toggled (GtkToggleButton *togglebutton, gpointer data);
     //void on_rB_2_toggled (GtkToggleButton *togglebutton, gpointer data);
     //void on_rB_3_toggled (GtkToggleButton *togglebutton, gpointer data);
+    gboolean on_eventbox1_button_press_event( GtkWidget *widget, GdkEventButton *event, gpointer data);
 }
 
 /* Functions */
@@ -41,5 +44,14 @@ void get_present_image ( Mat * container );
 //int get_cargo_type (void);
 
 void stop_video_stream(void);
+
+float * get_robot_pose(void);
+float * get_cargo_pose(void);
+float * getGoalPointCoor(void);
+
+
+
+gboolean key_event (GtkWidget *widget, GdkEventKey *event);
+gboolean key_event_release (GtkWidget *widget, GdkEventKey *event);
 
 #endif

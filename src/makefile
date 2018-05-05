@@ -8,18 +8,18 @@ GTKLIBS  = `pkg-config --libs gtk+-3.0` `pkg-config --cflags --libs opencv --lib
 ODIR = obj
 LDIR = ../lib
 
-LIBS = -lm -ldc1394 -lNETUSBCAM #-l826_64 
+LIBS = -lm -ldc1394 -lNETUSBCAM #-l826_64
 
-_DEPS = GUI_master.hpp general_header.hpp output_signal.hpp vision.hpp ICubeDefines.h NETUSBCAM_API.h
+_DEPS = GUI_master.hpp general_header.hpp vision.hpp undergrad.hpp amplifier.hpp astar.hpp ICubeDefines.h NETUSBCAM_API.h s826_subroutine.h s826api.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o GUI_master.o general_fun.o output_signal.o vision.o
+_OBJ = main.o GUI_master.o general_fun.o vision.o undergrad.o amplifier.o astar.o s826_subroutine.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c $(GTKFLAGS) -o $@ $< $(GTKLIBS) $(CFLAGS) $(LIBS)
 
-main: $(OBJ)
+main: $(OBJ) lib826_64.a
 	$(CC) $(GTKFLAGS) -o $@ $^ $(GTKLIBS) $(CFLAGS) $(LIBS)
 
 .PHONY: clean
