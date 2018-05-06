@@ -5,6 +5,9 @@
 
 #include <gdk/gdkkeysyms.h>
 
+#include "astar.hpp"
+#include "undergrad.hpp"
+
 #include "NETUSBCAM_API.h"
 #include "ICubeDefines.h"
 
